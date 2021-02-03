@@ -1,0 +1,41 @@
+Result-2021-02-01-17-26-33
+Login method executing for user number: gr4oPartyTest02
+Starting transaction: StartOkta
+Ending transaction : StartOkta
+Logging in with User: gr4oPartyTest02
+Starting transaction: PWSLogin
+Ending transaction : PWSLogin
+Starting transaction: NavigateToHomePage
+Ending transaction : NavigateToHomePage
+Starting transaction: PWSSelectCreateParty
+Ending transaction : PWSSelectCreateParty
+Starting transaction: PWSAddGroup
+Ending transaction : PWSAddGroup
+Starting transaction: NavigateToHomePage
+Ending transaction : NavigateToHomePage
+Search Term is: 101343656
+SearchForParty completed OK - Search Term: 101343656
+Starting transaction: PWSLogOut
+Selected logout ..
+Ending transaction : PWSLogOut
+Logged out ...
+Login method executing for user number: gr4oPartyTest02
+Starting transaction: StartOkta
+Ending transaction : StartOkta
+Logging in with User: gr4oPartyTest02
+Starting transaction: PWSLogin
+Ending transaction : PWSLogin
+Starting transaction: NavigateToHomePage
+Ending transaction : NavigateToHomePage
+Starting transaction: PWSSelectCreateParty
+Ending transaction : PWSSelectCreateParty
+Starting transaction: PWSAddPerson
+Ending transaction : PWSAddPerson
+Starting transaction: NavigateToHomePage
+Ending transaction : NavigateToHomePage
+Search Term is: 101343668
+SearchForParty completed OK - Search Term: 101343668
+Starting transaction: PWSLogOut
+Selected logout ..
+Ending transaction : PWSLogOut
+Logged out ...
