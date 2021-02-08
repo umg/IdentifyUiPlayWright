@@ -8,6 +8,7 @@
     "aws-sdk": "^2.782.0",
     "chart.js": "^2.9.3",
     "cucumber": "6.0.5",
+    "cucumber-json-to-teamcity-cli": "^0.3.0",
     "dateformat": "^3.0.3",
     "expect": "26.6.2",
     "ffmpeg": "0.0.4",
