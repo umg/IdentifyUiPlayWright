@@ -48,4 +48,10 @@ Then('The group party full name is displayed', async () => {
   expect(DoIteration.NameAsEntered).toEqual(DoIteration.GroupNameFromScreen) 
 });
 
-
+When ('I verify the Ancillary Record', async () => {
+  let result = await DoIteration.VerifyAncillaryRecord()
+});
+  
+Then ('I ensure the Ancillary Record is Verified', async () => {
+  let result = await DoIteration.AncillaryRecordIsVerified()
+});
