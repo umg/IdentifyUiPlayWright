@@ -153,6 +153,46 @@ class PartyAddLib{
 
     }
 
+    async AddFictitiousParty(IterationInstance){
+
+        console.log("Inside AddFictitiousParty")
+
+        await IterationInstance.KeepPage.waitForSelector("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-2 > a",{"timeout":10000});
+        
+        await IterationInstance.KeepPage.click("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-2 > a",{"timeout":10000});
+        IterationInstance.StartTransaction("PWSSelectCreateParty")
+        
+        await IterationInstance.KeepPage.waitForSelector( "#create-new-party > div > h1");
+        IterationInstance.EndTransaction("PWSSelectCreateParty","Pass")
+        
+        await IterationInstance.KeepPage.selectOption("#partyTypeSelect",IterationInstance.FictionalType);
+        await IterationInstance.delay(1000);
+        IterationInstance.NameAsEntered = IterationInstance.FictionName + TheUid.v4()
+        await IterationInstance.KeepPage.fill('#fictitiousCharacterName', IterationInstance.NameAsEntered);
+        IterationInstance.ZActiveFromDay = ""
+        IterationInstance.ZActiveFromDay = String(IterationInstance.ActiveFromDay)
+        await IterationInstance.KeepPage.fill('#ActiveFrom_day', IterationInstance.ZActiveFromDay)
+        IterationInstance.ZActiveFromMonth = ""
+        IterationInstance.ZActiveFromMonth = String(IterationInstance.ActiveFromMonth)
+        await IterationInstance.KeepPage.selectOption('#ActiveFrom_month',IterationInstance.ZActiveFromMonth)
+        IterationInstance.ZActiveFromYear = ""
+        IterationInstance.ZActiveFromYear = String(IterationInstance.ActiveFromYear)
+        await IterationInstance.KeepPage.fill('#ActiveFrom_year', IterationInstance.ZActiveFromYear);
+        await IterationInstance.KeepPage.fill('#distinguishingInformation', IterationInstance.GroupDistinguishingInfo);
+        await IterationInstance.KeepPage.fill('#notes', IterationInstance.GroupAdminNotes);
+        await IterationInstance.KeepPage.click("#btnSubmit");
+        IterationInstance.StartTransaction("PWSAddFictitiousCharacter")
+        await IterationInstance.KeepPage.waitForSelector( "#party-view-page > div > div > div > div > section > div > div:nth-child(2) > div > button.btn.btn-primary.ml-1.btn-sm.btn.btn-primary",{"timeout":60000});
+        IterationInstance.EndTransaction("PWSAddFictitiousCharacter","Pass")
+
+    // Get Party Id
+    IterationInstance.CreatedPartyID = await IterationInstance.KeepPage.$eval("#party-view-page > div > div > div > div > aside > div > div.cz-sidebar-body.small > div > div > ul:nth-child(3) > li > span", el => el.textContent.trim())
+    
+    IterationInstance.CreatedPartyID = IterationInstance.CreatedPartyID.replace(/\s+/g,"")
+    
+    console.log("CreatedPartyID is: " + IterationInstance.CreatedPartyID)
+}  
+
 
 
     
