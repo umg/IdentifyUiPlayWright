@@ -345,6 +345,37 @@ class Iteration {
         await this.KeepPage.click(this.SelectorID)
     }
 
+    async VerifyAncillaryRecord(){
+                
+        await this.delay(3000)
+        await this.KeepPage.waitForSelector('#headingDate > h3 > a > span')
+        await this.KeepPage.click('#headingDate > h3 > a > span')
+
+        await this.KeepPage.waitForSelector('#date > div:nth-child(2) > div > div > table > tbody > tr > td.tbl-col.tbl-col-buttons > button.btn.btn-none.btn-sm > svg')
+        await this.KeepPage.click('#date > div:nth-child(2) > div > div > table > tbody > tr > td.tbl-col.tbl-col-buttons > button.btn.btn-none.btn-sm > svg')
+
+        await this.KeepPage.waitForSelector('#notes')
+        this.AdminNotes = "TEST";
+        await this.KeepPage.fill('#notes', this.AdminNotes)
+
+        await this.KeepPage.waitForSelector('#lock')
+        await this.KeepPage.click('#lock')
+
+        await this.KeepPage.waitForSelector('#dateModal > div > div.p-1.modal-footer > button.btn.btn-primary')
+        await this.KeepPage.click('#dateModal > div > div.p-1.modal-footer > button.btn.btn-primary')
+    }
+    
+    async AncillaryRecordIsVerified() {
+
+        try{
+            await this.KeepPage.waitForSelector("#date > div:nth-child(2) > div > div > table > tbody > tr > td.tbl-col.tbl-col-verified > span > svg > path")
+       }
+        catch(error){
+            this.WriteLog("Ancillary Record not Verified")
+       }
+
+    }    
+
     async LogOutAndFinish(){
         await this.LogOut()
         await this.Finish()
