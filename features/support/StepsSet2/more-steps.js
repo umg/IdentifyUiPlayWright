@@ -54,6 +54,7 @@ When ('I verify the Ancillary Record', async () => {
   
 Then ('I ensure the Ancillary Record is Verified', async () => {
   let result = await DoIteration.AncillaryRecordIsVerified()
+});
 
 When('I add the Fictitious Character party record', async (ParameterData) => {
     
