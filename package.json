@@ -70,7 +70,7 @@
   },
   "scripts": {
     "lint": "npx eslint --ext .js ./ --fix",
-    "test": "cucumber-js -f json:./tests/report/cucumber_report.json"
+    "test": "cucumber-js -f json:./tests/report/cucumber_report.json; node index.js;"
   },
   "version": "1.0.0"
 }
