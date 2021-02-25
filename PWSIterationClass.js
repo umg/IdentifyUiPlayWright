@@ -339,16 +339,74 @@ class Iteration {
 
     }
 
+    async SearchForFictitiousPartyAndOpen(){
+    
+        this.SearchTerm = this.CreatedPartyID
 
+        this.WriteLog("Search Term is: " + this.SearchTerm)
+
+    
+        await this.delay(3000)
+        await this.KeepPage.waitForSelector( "#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > input",{"timeout":5000});
+        await this.KeepPage.fill('#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > input', this.SearchTerm);
+
+        await this.KeepPage.click("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > div > span > i")
+        
+       try{
+            await this.KeepPage.waitForSelector("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div:nth-child(2) > div > div > div:nth-child(1) > div",{"timeout":20000})
+            this.WriteLog("SearchForParty" + " completed OK - " + "Search Term: " + this.SearchTerm)
+       }
+       catch(error){
+            this.WriteLog("SearchForParty" + " returned no results - " + "Search Term: " + this.SearchTerm)
+       }
+
+       this.delay(2000)
+       result = await this.OpenSearchedForParty()
+       result = await this.delay(2000)
+
+       this.FictionalNameFromScreen = await this.KeepPage.$eval("#party-view-page > div > div > div > div > section > div > div:nth-child(3) > div > div > div.p-0.m-0.col-sm-11 > div > h4", el => el.textContent.trim())
+
+       console.log(this.FictionalNameFromScreen)
+
+    }
 
     async OpenSearchedForParty(){
 
         this.SelectorID = '#searchResultContainer_' + this.CreatedPartyID + ' > div:nth-child(1) > div.pl-1.col > div:nth-child(1) > div.col-8 > span > a > span'
 
         await this.KeepPage.click(this.SelectorID)
-
     }
 
+    async VerifyAncillaryRecord(){
+                
+        await this.delay(3000)
+        await this.KeepPage.waitForSelector('#headingDate > h3 > a > span')
+        await this.KeepPage.click('#headingDate > h3 > a > span')
+
+        await this.KeepPage.waitForSelector('#date > div:nth-child(2) > div > div > table > tbody > tr > td.tbl-col.tbl-col-buttons > button.btn.btn-none.btn-sm > svg')
+        await this.KeepPage.click('#date > div:nth-child(2) > div > div > table > tbody > tr > td.tbl-col.tbl-col-buttons > button.btn.btn-none.btn-sm > svg')
+
+        await this.KeepPage.waitForSelector('#notes')
+        this.AdminNotes = "TEST";
+        await this.KeepPage.fill('#notes', this.AdminNotes)
+
+        await this.KeepPage.waitForSelector('#lock')
+        await this.KeepPage.click('#lock')
+
+        await this.KeepPage.waitForSelector('#dateModal > div > div.p-1.modal-footer > button.btn.btn-primary')
+        await this.KeepPage.click('#dateModal > div > div.p-1.modal-footer > button.btn.btn-primary')
+    }
+    
+    async AncillaryRecordIsVerified() {
+
+        try{
+            await this.KeepPage.waitForSelector("#date > div:nth-child(2) > div > div > table > tbody > tr > td.tbl-col.tbl-col-verified > span > svg > path")
+       }
+        catch(error){
+            this.WriteLog("Ancillary Record not Verified")
+       }
+
+    }    
 
     async LogOutAndFinish(){
         await this.LogOut()
