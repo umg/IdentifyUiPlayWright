@@ -48,4 +48,19 @@ Then('The group party full name is displayed', async () => {
   expect(DoIteration.NameAsEntered).toEqual(DoIteration.GroupNameFromScreen) 
 });
 
+When('I search for the party created', async () => {
+  let result = await DoIteration.SearchForParty()
+  });
 
+When('I select a party from the search results', async () => { 
+  let result = await DoIteration.SelectPartyFromSearch()
+});
+
+Then('I create a new basket', async () => { 
+  let result = await DoIteration.AddtoBasket(DoIteration)
+});
+
+Then('a new basket is created with the selected parties', async () => { 
+  let result = await DoIteration.VerifyNewBasket(DoIteration)
+      result = await DoIteration.CloseBaskets(DoIteration)
+ });

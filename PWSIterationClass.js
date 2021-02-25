@@ -70,7 +70,9 @@ class Iteration {
         this.ActiveFromMonth  = ''	
         this.ActiveFromYear  = ''	
         this.FictionalDistinguishing  = ''	
-        this.FictionalAdmin  = ''      
+        this.FictionalAdmin  = ''    
+        
+        this.NewBasketName = ''
 
     }
 
@@ -242,6 +244,36 @@ class Iteration {
         await this.delay(10000)
    
     }
+    
+    async SelectPartyFromSearch(){
+        console.log("Inside SelectParty")
+
+        await this.delay(3000)
+        await this.KeepPage.waitForSelector("#iptSelectAllParties", {"timeout":5000});
+        await this.KeepPage.click("#iptSelectAllParties")
+    }
+
+    async SearchForParty(){
+    
+        this.SearchTerm = this.CreatedPartyID
+
+        this.WriteLog("Search Term is: " + this.SearchTerm)
+
+    
+        await this.delay(3000)
+        await this.KeepPage.waitForSelector( "#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > input",{"timeout":5000});
+        await this.KeepPage.fill('#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > input', this.SearchTerm);
+
+        await this.KeepPage.click("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > div > span > i")
+        
+       try{
+            await this.KeepPage.waitForSelector("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div:nth-child(2) > div > div > div:nth-child(1) > div",{"timeout":20000})
+            this.WriteLog("SearchForParty" + " completed OK - " + "Search Term: " + this.SearchTerm)
+       }
+       catch(error){
+            this.WriteLog("SearchForParty" + " returned no results - " + "Search Term: " + this.SearchTerm)
+       }
+    }
 
 
     async SearchForPartyAndOpen(){
@@ -284,7 +316,7 @@ class Iteration {
 
     
         await this.delay(3000)
-        await this.KeepPage.waitForSelector( "#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > input",{"timeout":5000});
+        await this.KeepPage.waitForSelector("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > input",{"timeout":5000});
         await this.KeepPage.fill('#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > input', this.SearchTerm);
 
         await this.KeepPage.click("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-10 > div > div:nth-child(1) > div > div > div > span > i")
@@ -371,6 +403,71 @@ class Iteration {
 
         await this.delay(3000)
 
+    }
+
+    async AddtoBasket(){
+
+        // var basket_name = Date.now();
+
+        this.SearchTerm = 'newbasket'+Date.now();
+        this.WriteLog("New Basket name is: "+ this.SearchTerm)
+        
+        //this.SearchTerm = this.CreatedPartyID
+
+        //this.WriteLog("Search Term is: " + this.SearchTerm)
+
+        await this.KeepPage.waitForSelector("button[data-testid='btnAddToBasketPopup']");
+        await this.delay(5000)
+        await this.KeepPage.click("button[data-testid='btnAddToBasketPopup']");
+        
+        // this.SearchTerm = "NewBasket";
+        await this.KeepPage.waitForSelector("button[data-testid='addBasketPopupAddButton']");
+        await this.delay(5000)
+        await this.KeepPage.click("button[data-testid='addBasketPopupAddButton']");
+        
+        //add to basket text box
+        await this.delay(5000)
+        await this.KeepPage.waitForSelector("input[data-testid='addBasketPopupNewBasketName']");
+        await this.delay(5000)
+        await this.KeepPage.click("input[data-testid='addBasketPopupNewBasketName']");
+        await this.delay(5000)
+        await this.KeepPage.fill("input[data-testid='addBasketPopupNewBasketName']", this.SearchTerm);
+
+        //click on save 
+        //Step 1- I need to create baskets with Uniques Ids
+        //Step 2 - put the new name in the search box to look for basket
+        await this.KeepPage.waitForSelector("button[data-testid='addBasketPopupSaveButton']");
+        await this.delay(5000)
+        await this.KeepPage.click("button[data-testid='addBasketPopupSaveButton']");
+        await this.delay(5000)
+
+        //check for confirmation message
+        //await this.KeepPage.waitForSelector("div[data-testid='addBasketPopupConfirmationMessage']");
+        //output 1 party added message
+    
+    }
+
+    async VerifyNewBasket(){
+
+        await this.KeepPage.waitForSelector("input[data-testid='myBasketTextInput']")
+        await this.delay(5000)
+        await this.KeepPage.click("input[data-testid='myBasketTextInput']");
+        await this.delay(5000)
+        await this.KeepPage.fill("input[data-testid='myBasketTextInput']", this.SearchTerm);
+        await this.delay(5000)
+
+        await this.KeepPage.waitForSelector("#basketTable > div > div.react-bootstrap-table > table > tbody > tr > td:nth-child(5) > div > button:nth-child(1)")
+        await this.delay(5000)
+        await this.KeepPage.click("#basketTable > div > div.react-bootstrap-table > table > tbody > tr > td:nth-child(5) > div > button:nth-child(1)")
+        await this.delay(5000)
+        await this.delay(5000)       
+    }
+
+
+    async CloseBaskets(){
+        await this.KeepPage.click("button[data-testid='addBasketPopupCloseButton']")
+        await this.delay(5000)
+        await this.KeepPage.click("button[data-testid='addBasketPopupCloseButton']")
     }
 
 }
