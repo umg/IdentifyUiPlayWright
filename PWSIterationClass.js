@@ -71,7 +71,6 @@ class Iteration {
         this.ActiveFromYear  = ''	
         this.FictionalDistinguishing  = ''	
         this.FictionalAdmin  = ''    
-        
         this.NewBasketName = ''
 
     }
@@ -465,25 +464,21 @@ class Iteration {
 
     async AddtoBasket(){
 
-        // var basket_name = Date.now();
-
+        //Creates new basket name
         this.SearchTerm = 'newbasket'+Date.now();
         this.WriteLog("New Basket name is: "+ this.SearchTerm)
         
-        //this.SearchTerm = this.CreatedPartyID
-
-        //this.WriteLog("Search Term is: " + this.SearchTerm)
-
+        //Add to basket from Search ui
         await this.KeepPage.waitForSelector("button[data-testid='btnAddToBasketPopup']");
         await this.delay(5000)
         await this.KeepPage.click("button[data-testid='btnAddToBasketPopup']");
         
-        // this.SearchTerm = "NewBasket";
+        //Add New basket in Basket ui
         await this.KeepPage.waitForSelector("button[data-testid='addBasketPopupAddButton']");
         await this.delay(5000)
         await this.KeepPage.click("button[data-testid='addBasketPopupAddButton']");
         
-        //add to basket text box
+        //Add to basket text box
         await this.delay(5000)
         await this.KeepPage.waitForSelector("input[data-testid='addBasketPopupNewBasketName']");
         await this.delay(5000)
@@ -491,22 +486,16 @@ class Iteration {
         await this.delay(5000)
         await this.KeepPage.fill("input[data-testid='addBasketPopupNewBasketName']", this.SearchTerm);
 
-        //click on save 
-        //Step 1- I need to create baskets with Uniques Ids
-        //Step 2 - put the new name in the search box to look for basket
+        //Save new basket
         await this.KeepPage.waitForSelector("button[data-testid='addBasketPopupSaveButton']");
         await this.delay(5000)
         await this.KeepPage.click("button[data-testid='addBasketPopupSaveButton']");
         await this.delay(5000)
-
-        //check for confirmation message
-        //await this.KeepPage.waitForSelector("div[data-testid='addBasketPopupConfirmationMessage']");
-        //output 1 party added message
-    
     }
 
     async VerifyNewBasket(){
 
+        //Search for newly created basket
         await this.KeepPage.waitForSelector("input[data-testid='myBasketTextInput']")
         await this.delay(5000)
         await this.KeepPage.click("input[data-testid='myBasketTextInput']");
@@ -518,7 +507,6 @@ class Iteration {
         await this.delay(5000)
         await this.KeepPage.click("#basketTable > div > div.react-bootstrap-table > table > tbody > tr > td:nth-child(5) > div > button:nth-child(1)")
         await this.delay(5000)
-        await this.delay(5000)       
     }
 
 
