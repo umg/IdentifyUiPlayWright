@@ -95,3 +95,8 @@ let result = await DoIteration.SearchForFictitiousPartyAndOpen()
 Then('The Fictitious Character party full name is displayed', async () => {
 expect(DoIteration.NameAsEntered).toEqual(DoIteration.FictionalNameFromScreen) 
 });
+
+
+Then('I add the Variant Names ancillary', async () => {
+  await DoIteration.ClickandAddVariantNames()
+});
