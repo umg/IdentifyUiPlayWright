@@ -516,5 +516,25 @@ class Iteration {
         await this.KeepPage.click("button[data-testid='addBasketPopupCloseButton']")
     }
 
+    async ClickandAddVariantNames() {
+
+        await this.KeepPage.waitForSelector("#headingVariant > h3 > a > span > i");
+        await this.KeepPage.click("#headingVariant > h3 > a > span > i");
+        //Adding Variant Name
+        await this.KeepPage.waitForSelector("button[data-testid='variantaddButton']");
+        await this.KeepPage.click("button[data-testid='variantaddButton']");
+        //Fill in Variant Name information
+        await this.KeepPage.waitForSelector("select[class='is-invalid form-control']");
+        await this.KeepPage.selectOption("select[class='is-invalid form-control']", 'ContractName');
+        await this.KeepPage.waitForSelector("input[id='name']");
+        await this.KeepPage.fill("input[id='name']", 'Faysal Variant');
+        //Save variant 
+        await this.KeepPage.waitForSelector("button[data-testid='saveButton']")
+        await this.KeepPage.click("button[data-testid='saveButton']");
+        await this.delay(20000);
+
+    }
+
+
 }
 module.exports.Iteration = Iteration;
