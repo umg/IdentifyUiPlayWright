@@ -78,7 +78,49 @@ class PartyAddLib{
 
     }
 
+    async AddDefaultPersonParty(IterationInstance)
+    {
+         // Click a[data-testid="searchbtnAddParty"]
+  await IterationInstance.KeepPage.click('a[data-testid="searchbtnAddParty"]');
+  // assert.equal(page.url(), 'https://party-qa.gr4o-nonprod.umusic.net/party-workspace/create');
 
+  // Select person
+  await IterationInstance.KeepPage.selectOption('select[data-testid="partyTypeSelect"]', 'person');
+
+  // Select Alias
+  await IterationInstance.KeepPage.selectOption('select[data-testid="personNameTypeSelect"]', 'Alias');
+
+  // Click input[data-testid="firstName"]
+  await IterationInstance.KeepPage.click('input[data-testid="firstName"]');
+
+  var personFirstName = TheUid.v4();
+
+   // Fill input[data-testid="firstName"]
+  await IterationInstance.KeepPage.fill('input[data-testid="firstName"]',personFirstName);
+
+  // Click input[data-testid="lastName"]
+  await IterationInstance.KeepPage.click('input[data-testid="lastName"]');
+
+  // Fill input[data-testid="lastName"]
+  await IterationInstance.KeepPage.fill('input[data-testid="lastName"]', 'test');
+
+  // Click button[data-testid="btnSubmit"]
+  await IterationInstance.KeepPage.click('button[data-testid="btnSubmit"]');
+  
+  await IterationInstance.delay(10000);
+
+
+
+ var url = IterationInstance.KeepPage.url();
+  console.log(url);
+  var PartyID = url.slice(url.lastIndexOf('/') + 1);
+  console.log(PartyID);
+   
+   console.log("CreatedPartyID is: " + PartyID)
+
+  return [personFirstName, PartyID];
+ 
+  }
 
     
     async AddGroupParty(IterationInstance){

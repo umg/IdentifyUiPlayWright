@@ -1,5 +1,5 @@
 let PartyAddLibrary = require('./AddPartyMethods');
-
+let AddAssociationLibrary = require('./AddAssociation');
 const playwright = require('playwright');
 const TheUid = require('uuid');
 const { saveVideo } = require('playwright-video');
@@ -16,6 +16,7 @@ class Iteration {
     constructor(ResultIdentifier){
 
         this.AddPartyLib = new PartyAddLibrary.PartyAddLib(this)
+        this.AddAssociationLib = new AddAssociationLibrary.AssociationAddLib(this)
 
         this.ResultsName = ResultIdentifier
 
@@ -275,9 +276,9 @@ class Iteration {
     }
 
 
-    async SearchForPartyAndOpen(){
+    async SearchForPartyAndOpen(PartyID = this.CreatedPartyID){
     
-        this.SearchTerm = this.CreatedPartyID
+        this.SearchTerm = PartyID
 
         this.WriteLog("Search Term is: " + this.SearchTerm)
 
@@ -297,7 +298,7 @@ class Iteration {
        }
 
        this.delay(2000)
-       result = await this.OpenSearchedForParty()
+       result = await this.OpenSearchedForParty(this.SearchTerm)
        result = await this.delay(2000)
 
        this.FullNameFromScreen = await this.KeepPage.$eval("#party-view-page > div > div > div > div > section > div > div:nth-child(3) > div > div > div.p-0.m-0.col-sm-11 > div > h4", el => el.textContent.trim())
@@ -369,9 +370,9 @@ class Iteration {
 
     }
 
-    async OpenSearchedForParty(){
+    async OpenSearchedForParty(PartyID = this.CreatedPartyID  ){
 
-        this.SelectorID = '#searchResultContainer_' + this.CreatedPartyID + ' > div:nth-child(1) > div.pl-1.col > div:nth-child(1) > div.col-8 > span > a > span'
+        this.SelectorID = '#searchResultContainer_' + PartyID + ' > div:nth-child(1) > div.pl-1.col > div:nth-child(1) > div.col-8 > span > a > span'
 
         await this.KeepPage.click(this.SelectorID)
     }

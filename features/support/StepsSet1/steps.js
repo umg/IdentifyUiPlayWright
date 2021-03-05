@@ -17,6 +17,7 @@ const {
 
 const { chromium } = require("playwright");
 const expect = require("expect");
+const { assert } = require('console');
 
 setDefaultTimeout(50 * 1000);
 
@@ -127,12 +128,18 @@ When('I have navigated to the party workspace Search page', async () => {
 });
 
 When('I search and navigate to the first person party record details page', async () => { 
-  let result = await DoIteration.SearchForPartyAndOpen()
+  let result = await DoIteration.SearchForPartyAndOpen(DoIteration.FirstPersonPartyId)
  
 });
 
 Then('The person party full name is displayed', async () => {
   expect(DoIteration.NameAsEntered).toEqual(DoIteration.FullNameFromScreen) 
+});
+
+Then('I add assosiation between first and second party', async () => {
+  
+  await DoIteration.AddAssociationLib.AddAssosiation(DoIteration);
+ 
 });
 
 Then('I log out', async () => {
@@ -141,4 +148,21 @@ Then('I log out', async () => {
 });
 
 
+When("I add {string} person party record", async (partyNumber) => {
+  
+  let result = await DoIteration.AddPartyLib.AddDefaultPersonParty(DoIteration);
 
+  if(partyNumber === "first"){
+  DoIteration.FirstPersonFirstName=result[0];
+  DoIteration.FirstPersonPartyId =result[1];}
+  if(partyNumber === "second"){
+  DoIteration.SecondPersonFirstName=result[0];
+  DoIteration.SecondPersonPartyId =result[1];}
+});
+
+
+Then("I assert the associations count for type {string}", async (associationType) => {
+  
+  let result = await DoIteration.AddAssociationLib.AssosiationDisplayed(DoIteration);
+  expect(result).toBeTruthy;
+});
