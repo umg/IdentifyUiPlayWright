@@ -134,8 +134,8 @@ class Iteration {
     async StartUp(){
    
    //Chromium     
-   const browser = await playwright.chromium.launch({headless:false, slowMo: 250, args: ['--start-fullscreen']});
-    //const browser = await playwright.chromium.launch({headless:true, slowMo: 250, args: ['--start-fullscreen']});
+   //const browser = await playwright.chromium.launch({headless:false, slowMo: 250, args: ['--start-fullscreen']});
+    const browser = await playwright.chromium.launch({headless:true, slowMo: 250, args: ['--start-fullscreen']});
  
  
         this.KeepBrowser = browser;
