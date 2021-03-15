@@ -124,9 +124,12 @@ class Iteration {
         {
             this.TransactionStatus = 'Fail'
         }
-        this.WriteLog("Ending transaction : " + this.TransactionName)
+        this.WriteLog("Ending transaction : " + this.TransactionName + " with Status: " + this.TransactionStatus)
+        if (this.TransactionStatus == 'Pass'){
         this.TransactionTime = (this.TransactionEndTime - this.TransactionStartTime) / 1000; 
         this.TransactionTime = this.TransactionTime.toFixed(4)
+        this.WriteLog("Transaction : " + NameOfTransaction + " Transaction Time in secs:" + this.TransactionTime)
+        }
         this.TransactionStatus = "None"  
     }
 
