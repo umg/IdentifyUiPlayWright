@@ -149,8 +149,14 @@ class Iteration {
             const worksheet = workbook.addWorksheet("Test Results")
             this.Keepworksheet = worksheet
             this.Keepworksheet.columns = [
-                { header: 'TransactionName', key: 'TransactionName', width: 40 },
-                { header: 'TransactionTime', key: 'TransactionTime', width: 32 }
+                { header: 'StartOkta', key: 'StartOkta', width: 40 },
+                { header: 'PWSLogin', key: 'PWSLogin', width: 40 },
+                { header: 'NavigateToHomePage', key: 'NavigateToHomePage', width: 40 },
+                { header: 'PWSSelectCreateParty', key: 'PWSSelectCreateParty', width: 40 },
+                { header: 'PWSAddFictitiousCharacter', key: 'PWSAddFictitiousCharacter', width: 40 },
+                { header: 'PWSAddGroup', key: 'PWSAddGroup', width: 40 },
+                { header: 'PWSAddPerson', key: 'PWSAddPerson', width: 40 },
+                { header: 'PWSLogOut', key: 'PWSLogOut', width: 32 }
               ];
             }
 
@@ -173,7 +179,30 @@ class Iteration {
     WriteTransaction(NameOfTransaction, TransactionTime){
         try{
         
-           this.Keepworksheet.addRow({TransactionName: NameOfTransaction, TransactionTime: TransactionTime});
+            if (NameOfTransaction == 'StartOkta'){
+                this.Keepworksheet.addRow({StartOkta: TransactionTime})
+            }
+            else if (NameOfTransaction == 'PWSLogin'){
+                this.Keepworksheet.addRow({PWSLogin: TransactionTime})
+            } 
+            else if (NameOfTransaction == 'NavigateToHomePage'){
+                this.Keepworksheet.addRow({NavigateToHomePage: TransactionTime})
+            } 
+            else if (NameOfTransaction == 'PWSSelectCreateParty'){
+                this.Keepworksheet.addRow({PWSSelectCreateParty: TransactionTime})
+            } 
+            else if (NameOfTransaction == 'PWSAddFictitiousCharacter'){
+                this.Keepworksheet.addRow({PWSAddFictitiousCharacter: TransactionTime})
+            } 
+            else if (NameOfTransaction == 'PWSAddGroup'){
+                this.Keepworksheet.addRow({PWSAddGroup: TransactionTime})
+            } 
+            else if (NameOfTransaction == 'PWSAddPerson'){
+                this.Keepworksheet.addRow({PWSAddPerson: TransactionTime})
+            } 
+            else if (NameOfTransaction == 'PWSLogOut'){
+                this.Keepworksheet.addRow({PWSLogOut: TransactionTime})
+            }            
            this.Keepworkbook.xlsx.writeFile(this.TestResultSheet)
         }
         catch(error){
