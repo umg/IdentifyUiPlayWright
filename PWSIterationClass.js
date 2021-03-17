@@ -25,7 +25,7 @@ class Iteration {
 
         this.IntitialiseLogging()
 
-        this.TestResultSheet = "Test-" + dateFormat(this.now,"yyyy-mm-dd-HH-MM-ss") + ".xlsx"
+        this.TestResultSheet = this.userdir + "/Test-" + dateFormat(this.now,"yyyy-mm-dd-HH-MM-ss") + ".xlsx"
 
         this.InitialiseTransactionLogging()
                 
