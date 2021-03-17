@@ -9,11 +9,13 @@ const { Pool, Client } = require("pg");
 var dateFormat = require('dateformat');
 var fs = require('fs');
 var util = require('util');
+const ExcelLib = require('exceljs')
 
 
 class Iteration {
 
     constructor(ResultIdentifier){
+
 
         this.AddPartyLib = new PartyAddLibrary.PartyAddLib(this)
 
@@ -22,6 +24,10 @@ class Iteration {
         this.CreateUserSubFolder()
 
         this.IntitialiseLogging()
+
+        this.TestResultSheet = "Test-" + dateFormat(this.now,"yyyy-mm-dd-HH-MM-ss") + ".xlsx"
+
+        this.InitialiseTransactionLogging()
                 
         this.Environment = "QA"
         //this.Environment = "TEST"
@@ -129,10 +135,52 @@ class Iteration {
         this.TransactionTime = (this.TransactionEndTime - this.TransactionStartTime) / 1000; 
         this.TransactionTime = this.TransactionTime.toFixed(4)
         this.WriteLog("Transaction : " + NameOfTransaction + " Transaction Time in secs:" + this.TransactionTime)
+        this.WriteTransaction(NameOfTransaction, this.TransactionTime)
         }
         this.TransactionStatus = "None"  
     }
 
+    InitialiseTransactionLogging(){
+
+        try{
+            const workbook = new ExcelLib.Workbook()
+            workbook.creator = 'QE'
+            this.Keepworkbook = workbook
+            const worksheet = workbook.addWorksheet("Test Results")
+            this.Keepworksheet = worksheet
+            this.Keepworksheet.columns = [
+                { header: 'TransactionName', key: 'TransactionName', width: 40 },
+                { header: 'TransactionTime', key: 'TransactionTime', width: 32 }
+              ];
+            }
+
+        catch(error){
+            this.WriteLog("Error Initialising Transaction Logging" + error)
+        }
+
+
+    }
+
+    FinaliseTransactionLogging(){
+        try{
+            this.Keepworkbook.xlsx.writeFile(this.TestResultSheet)
+        }
+        catch(error){
+            this.WriteLog("Error Finalising Transaction Logging" + error)
+        }
+    }
+
+    WriteTransaction(NameOfTransaction, TransactionTime){
+        try{
+        
+           this.Keepworksheet.addRow({TransactionName: NameOfTransaction, TransactionTime: TransactionTime});
+           this.Keepworkbook.xlsx.writeFile(this.TestResultSheet)
+        }
+        catch(error){
+            this.WriteLog("Error Writing Transaction" + error)
+        }
+
+    }
 
     async StartUp(){
    
