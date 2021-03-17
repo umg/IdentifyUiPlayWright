@@ -10,6 +10,7 @@
     "cucumber": "6.0.5",
     "cucumber-json-to-teamcity-cli": "^0.3.0",
     "dateformat": "^3.0.3",
+    "exceljs": "^4.2.1",
     "expect": "26.6.2",
     "ffmpeg": "0.0.4",
     "js": "^0.1.0",
