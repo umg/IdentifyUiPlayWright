@@ -35,6 +35,8 @@ class PartyAddLib{
         await IterationInstance.KeepPage.fill('#firstName', IterationInstance.PersonFirstName);
 
         IterationInstance.SurnameEntered = IterationInstance.PersonLastName + TheUid.v4()
+        //IterationInstance.SurnameEntered = IterationInstance.PersonLastName
+
 
         await IterationInstance.KeepPage.fill('#lastName', IterationInstance.SurnameEntered);
 
@@ -191,10 +193,91 @@ class PartyAddLib{
     IterationInstance.CreatedPartyID = IterationInstance.CreatedPartyID.replace(/\s+/g,"")
     
     console.log("CreatedPartyID is: " + IterationInstance.CreatedPartyID)
-}  
+}   
+
+async AddPersonPartyAndGetMatchMessages(IterationInstance){
+
+    console.log("Inside AddPersonPartyAndGetMatchMessages")
+
+    await IterationInstance.KeepPage.waitForSelector("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-2 > a",{"timeout":10000});
+
+    await IterationInstance.KeepPage.click("#root > div.pb-5.mb-2.mb-md-4.container > div.row > aside.col-lg-9 > div.pb-4.pb-sm-5.row > div.col-sm-2 > a",{"timeout":10000});
 
 
+    IterationInstance.StartTransaction("PWSSelectCreateParty")
 
+    await IterationInstance.KeepPage.waitForSelector( "#create-new-party > div > h1");
+
+    IterationInstance.EndTransaction("PWSSelectCreateParty","Pass")
+
+    await IterationInstance.KeepPage.selectOption("#partyTypeSelect",IterationInstance.PartyType);
+
+    await IterationInstance.delay(1000);
+
+    await IterationInstance.KeepPage.selectOption("#nameType",IterationInstance.PersonPartyNameType);
+
+    if (IterationInstance.PersonPartyNameType == 'RealName')
+        IterationInstance.EnteredPersonType = 'Real Name'
+
+    await IterationInstance.KeepPage.fill('#firstName', IterationInstance.PersonFirstName);
+
+    //IterationInstance.SurnameEntered = IterationInstance.PersonLastName + TheUid.v4()
+
+    //Don't add GUID
+    IterationInstance.SurnameEntered = IterationInstance.PersonLastName 
+
+
+    await IterationInstance.KeepPage.fill('#lastName', IterationInstance.SurnameEntered);
+
+    IterationInstance.NameAsEntered = IterationInstance.PersonFirstName + ' ' + IterationInstance.SurnameEntered + '(' + IterationInstance.EnteredPersonType + ')'
+
+    IterationInstance.ZBirthDate = "";
+
+    IterationInstance.ZBirthDate = String(IterationInstance.PersonBirthDay);
+
+    await IterationInstance.KeepPage.fill('#DateOfBirth_day', IterationInstance.ZBirthDate);
+
+    IterationInstance.ZBirthMonth = "";
+
+    IterationInstance.ZBirthMonth = String(IterationInstance.PersonBirthMonth);
+
+    await IterationInstance.KeepPage.selectOption('#DateOfBirth_month',IterationInstance.ZBirthMonth);
     
+    IterationInstance.ZBirthYear = "";
+    IterationInstance.ZBirthYear = String(IterationInstance.PersonBirthYear);
+    await IterationInstance.KeepPage.fill('#DateOfBirth_year', IterationInstance.ZBirthYear);
+    
+    await IterationInstance.KeepPage.fill('#distinguishingInformation', IterationInstance.PersonDistinguishingInfo);
+
+    await IterationInstance.KeepPage.fill('#notes', IterationInstance.PersonAdminNotes);
+
+    await IterationInstance.KeepPage.click("#btnSubmit");
+
+    //Check for Matching heading message
+
+    await IterationInstance.KeepPage.waitForSelector( "#create-new-party > div > div > div > div.modal-header > h5",{"timeout":60000});
+
+    this.message = await IterationInstance.KeepPage.$eval("#create-new-party > div > div > div > div.modal-header > h5", el => el.textContent.trim())
+
+    console.log(this.message)
+
+    const Set1 = await IterationInstance.KeepPage.$$('text=Possible')
+
+ //        const Set2 = await IterationInstance.KeepPage.$$('text=searchResultContainer')
+    const Set2 = await IterationInstance.KeepPage.$$('data-testid=CreatedAndDistInfoColumn')
+
+    console.log("Length of Set2:")
+    console.log(Set2.length)
+
+    for(this.i = 0; this.i <=Set2.length - 1; this.i++){
+        this.TextForElementA = await Set1[this.i + 1].innerText()
+        this.TextForElementB = await Set2[this.i].innerText()
+        console.log(this.TextForElementA + " : " + this.TextForElementB) 
+    }
+
+    this.MatchMessage = fsfa
+}
+
+   
 }
 module.exports.PartyAddLib = PartyAddLib;

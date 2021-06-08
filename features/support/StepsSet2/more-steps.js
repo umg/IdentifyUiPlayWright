@@ -100,3 +100,22 @@ expect(DoIteration.NameAsEntered).toEqual(DoIteration.FictionalNameFromScreen)
 Then('I add the Variant Names ancillary', async () => {
   await DoIteration.ClickandAddVariantNames()
 });
+
+When('Adding the person party record to check match on create', async (ParameterData) =>  {
+  
+  DoIteration.PartyType = ParameterData.raw()[1][0]
+  DoIteration.PersonPartyNameType = ParameterData.raw()[1][1]
+  DoIteration.PersonFirstName = ParameterData.raw()[1][2]
+  DoIteration.PersonLastName = ParameterData.raw()[1][3]
+  DoIteration.PersonISNI = ParameterData.raw()[1][4]
+  DoIteration.PersonIPN = ParameterData.raw()[1][5]
+  DoIteration.PersonMusicBrainzId = ParameterData.raw()[1][6]
+  DoIteration.PersonBirthDay = ParameterData.raw()[1][7]
+  DoIteration.PersonBirthMonth = ParameterData.raw()[1][8]
+  DoIteration.PersonBirthYear = ParameterData.raw()[1][9]
+  DoIteration.PersonDistinguishingInfo = ParameterData.raw()[1][10]
+  DoIteration.PersonAdminNotes = ParameterData.raw()[1][11]
+
+  let result = await DoIteration.AddPartyLib.AddPersonPartyAndGetMatchMessages(DoIteration)
+
+});
